@@ -2,20 +2,28 @@ import React from 'react';
 import { View, Text, Button, FlatList, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 
+// Function to fetch products from the API
 const fetchProducts = async () => {
-  const response = await fetch('https://dummyjson.com/products');
-  const data = await response.json();
-  console.log("Data Fetched Home");
-  return data.products; 
+  try {
+    const response = await fetch('https://dummyjson.com/products');
+    const data = await response.json();
+    console.log("Data Fetched Home");
+    return data.products; 
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  }
 };
 
-const Home = ({ navigation }) => {
+// Home screen component
+export default function Home ({ navigation })  {
+  // Query to fetch products using useQuery hook
   const { isLoading, error, data: products } = useQuery({
     queryKey: ['products'],
     queryFn: fetchProducts,
     staleTime: Infinity,
   });
 
+  // Function to render each item in the FlatList
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => navigation.navigate('Detail', { productId: item.id })}>
       <View style={styles.item}>
@@ -29,21 +37,25 @@ const Home = ({ navigation }) => {
     </TouchableOpacity>
   );
 
+  // Render loading state
   if (isLoading) return <Text>Loading...</Text>;
+  
+  // Render error state if there's an error
   if (error) return <Text>Error fetching data</Text>;
 
+  // Render the FlatList with fetched products
   return (
     <View style={styles.container}>
       <FlatList
         data={products}
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
-        // onEndReached={console.log("hello")}
       />
     </View>
   );
 };
 
+// Styles for the component
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -76,5 +88,3 @@ const styles = StyleSheet.create({
     color: '#888',
   },
 });
-
-export default Home;

@@ -2,10 +2,13 @@ import React from "react";
 import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 
-const NewHome = ({ navigation }) => {
+// Screen component to display cached data
+export default function CachedDataScreen({ navigation }) {
+  // Access the query client to get cached data
   const queryClient = useQueryClient();
   const query = queryClient.getQueryData(["products"]);
 
+  // Function to render each item in the FlatList
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => navigation.navigate('Detail', { productId: item.id })}>
       <View style={styles.item}>
@@ -19,11 +22,14 @@ const NewHome = ({ navigation }) => {
     </TouchableOpacity>
   );
 
+  // Render UI
   return (
     <View style={styles.container}>
+      {/* Informational text */}
       <View style={{margin:10}}>
-      <Text style={{color:'blue',fontSize:18}}>In this screen data is displayed using cache not from api call </Text>
+        <Text style={{color:'blue',fontSize:18}}>In this screen data is displayed using cache not from api call </Text>
       </View>
+      {/* FlatList to display cached data */}
       <FlatList
         data={query}
         renderItem={renderItem}
@@ -33,6 +39,7 @@ const NewHome = ({ navigation }) => {
   );
 };
 
+// Styles for the component
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -66,5 +73,3 @@ const styles = StyleSheet.create({
     color: "#888",
   },
 });
-
-export default NewHome;

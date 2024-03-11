@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 
+// Function to fetch product details by id
 const fetchProductById = async (productId) => {
   const response = await fetch(`https://dummyjson.com/product/${productId}`);
   const data = await response.json();
@@ -16,9 +17,11 @@ const fetchProductById = async (productId) => {
   return data;
 };
 
-const Detail = ({ navigation, route }) => {
+// Detail screen component
+export default function Detail ({ navigation, route })  {
   const { productId } = route.params;
 
+  // Query to fetch product details using useQuery hook
   const {
     isLoading,
     error,
@@ -29,13 +32,17 @@ const Detail = ({ navigation, route }) => {
     staleTime: Infinity,
   });
 
+  // Render loading state
   if (isLoading) return <Text>Loading...</Text>;
+  
+  // Render error state if there's an error
   if (error) return <Text>Error fetching data</Text>;
 
   return (
     <ScrollView contentContainerStyle={styles.scrollView}>
       <View style={styles.container}>
         <View style={styles.card}>
+          {/* Render product details */}
           <Image source={{ uri: product.thumbnail }} style={styles.image} />
           <View style={styles.cardContent}>
             <Text style={styles.title}>{product.title}</Text>
@@ -46,38 +53,13 @@ const Detail = ({ navigation, route }) => {
           </View>
         </View>
 
-        {/* <View style={styles.buttonContainer}>
-          <View style={styles.buttonWrapper}>
-            <Button
-              title="Add Product"
-              onPress={() => navigation.navigate("AddProduct")}
-            />
-          </View>
-
-          <View style={styles.buttonWrapper}>
-            <Button
-              title="Update Product"
-              onPress={() => navigation.navigate("UpdateProduct")}
-            />
-          </View>
-          <View style={styles.buttonWrapper}>
-            <Button
-              title="Delete Product"
-              onPress={() => navigation.navigate("DeleteProduct")}
-            />
-          </View>
-          <View style={styles.buttonWrapper}>
-            <Button
-              title="New Home"
-              onPress={() => navigation.navigate("NewHome")}
-            />
-          </View>
-        </View> */}
+     
       </View>
     </ScrollView>
   );
 };
 
+// Styles for the component
 const styles = StyleSheet.create({
   scrollView: {
     flexGrow: 1,
@@ -136,5 +118,3 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
-
-export default Detail;
