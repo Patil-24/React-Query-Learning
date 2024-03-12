@@ -12,7 +12,7 @@ export function DeleteHook(endpoint) {
         }
         return response.json();
       } catch (error) {
-        throw new Error(`Unable to delete product: ${error.message}`);
+        console.log(`Unable to delete product: ${error.message}`);
       }
     },
   });

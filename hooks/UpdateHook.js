@@ -14,7 +14,7 @@ export function UpdateHook(endpoint) {
         }
         return response.json();
       } catch (error) {
-        throw new Error(`Unable to update product: ${error.message}`);
+        console.log(`Unable to update product: ${error.message}`);
       }
     },
   });
