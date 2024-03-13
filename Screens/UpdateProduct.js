@@ -1,39 +1,14 @@
-import React, { useState } from 'react';
-import { View, Text, Button, TextInput, StyleSheet } from 'react-native';
-// import { useMutation } from '@tanstack/react-query';
-import { UpdateHook } from '../hooks/UpdateHook';
+import React, { useState } from "react";
+import { View, Text, Button, TextInput, StyleSheet } from "react-native";
+import { useUpdateHook } from "../hooks/useUpdateHook";
 
 // Component for updating product details
 export default function UpdateProduct() {
   // State variables to hold product ID and new title
-  const [productId, setProductId] = useState('');
-  const [title, setTitle] = useState('');
-  const mutation = UpdateHook('https://dummyjson.com/products');
+  const [productId, setProductId] = useState("");
+  const [title, setTitle] = useState("");
+  const mutation = useUpdateHook("https://dummyjson.com/products");
 
-  // Mutation hook to handle product update
-  // const mutation = useMutation({
-  //   mutationFn: async () => {
-  //     try {
-  //       // Send PUT request to update product
-  //       const response = await fetch(`https://dummyjson.com/products/${productId}`, {
-  //         method: 'PUT',
-  //         headers: { 'Content-Type': 'application/json' },
-  //         body: JSON.stringify({ title }),
-  //       });
-  //       // Check if request was successful
-  //       if (!response.ok) {
-  //         throw new Error('Network response was not ok');
-  //       }
-  //       // Return updated product data
-  //       return response.json();
-  //     } catch (error) {
-  //       // Throw error if update fails
-  //       throw new Error(`Unable to update product: ${error.message}`);
-  //     }
-  //   },
-  // });
-
-  // Render UI
   return (
     <View style={styles.container}>
       {/* Input field for product ID */}
@@ -62,11 +37,15 @@ export default function UpdateProduct() {
             disabled={!productId || !title}
           />
           {/* Display error message if update fails */}
-          {mutation.isError && <Text>An error occurred: {mutation.error.message}</Text>}
+          {mutation.isError && (
+            <Text>An error occurred: {mutation.error.message}</Text>
+          )}
           {/* Display success message if update is successful */}
           {mutation.isSuccess && <Text>Product updated!</Text>}
           {/* Display updated product details */}
-          {mutation.isSuccess && <Text>Response: {JSON.stringify(mutation.data.title)}</Text>}
+          {mutation.isSuccess && (
+            <Text>Response: {JSON.stringify(mutation.data.title)}</Text>
+          )}
         </>
       )}
     </View>
@@ -77,16 +56,16 @@ export default function UpdateProduct() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
     marginBottom: 20,
     padding: 10,
-    width: '100%',
+    width: "100%",
   },
 });

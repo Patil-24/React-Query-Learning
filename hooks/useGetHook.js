@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-export function GetHook(endpoint, queryKey) {
+export function useGetHook(endpoint, queryKey) {
   return useQuery({
     queryKey: [queryKey],
     queryFn: async () => {
@@ -10,7 +10,7 @@ export function GetHook(endpoint, queryKey) {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        return data.products;
+        return data;
       } catch (error) {
         console.error('Error fetching products:', error);        
       }

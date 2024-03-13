@@ -31,7 +31,7 @@ export default function CachedDataScreen({ navigation }) {
       </View>
       {/* FlatList to display cached data */}
       <FlatList
-        data={query}
+        data={query.products}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
       />

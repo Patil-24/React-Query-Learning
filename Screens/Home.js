@@ -1,35 +1,27 @@
-import React from 'react';
-import { View, Text, Button, FlatList, StyleSheet, TouchableOpacity, Image } from 'react-native';
-// import { useQuery } from '@tanstack/react-query';
+import React from "react";
+import {
+  View,
+  Text,
+  Button,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 
-import { GetHook } from '../hooks/GetHook';
+import { useGetHook } from "../hooks/useGetHook";
 
-// // Function to fetch products from the API
-// const fetchProducts = async () => {
-//   try {
-//     const response = await fetch('https://dummyjson.com/products');
-//     const data = await response.json();
-//     console.log("Data Fetched Home");
-//     return data.products; 
-//   } catch (error) {
-//     console.error('Error fetching products:', error);
-//   }
-// };
+export default function Home({ navigation }) {
+  const {
+    isLoading,
+    error,
+    data: products,
+  } = useGetHook("https://dummyjson.com/products", "products");
 
-// Home screen component
-export default function Home ({ navigation })  {
-
-  const { isLoading, error, data: products } = GetHook('https://dummyjson.com/products', 'products');
-  // Query to fetch products using useQuery hook
-  // const { isLoading, error, data: products } = useQuery({
-  //   queryKey: ['products'],
-  //   queryFn: fetchProducts,
-  //   staleTime: Infinity,
-  // });
-
-  // Function to render each item in the FlatList
   const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => navigation.navigate('Detail', { productId: item.id })}>
+    <TouchableOpacity
+      onPress={() => navigation.navigate("Detail", { productId: item.id })}
+    >
       <View style={styles.item}>
         <Image source={{ uri: item.thumbnail }} style={styles.image} />
         <View style={styles.details}>
@@ -43,7 +35,7 @@ export default function Home ({ navigation })  {
 
   // Render loading state
   if (isLoading) return <Text>Loading...</Text>;
-  
+
   // Render error state if there's an error
   if (error) return <Text>Error fetching data</Text>;
 
@@ -51,13 +43,13 @@ export default function Home ({ navigation })  {
   return (
     <View style={styles.container}>
       <FlatList
-        data={products}
+        data={products.products}
         renderItem={renderItem}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={(item) => item.id.toString()}
       />
     </View>
   );
-};
+}
 
 // Styles for the component
 const styles = StyleSheet.create({
@@ -66,10 +58,10 @@ const styles = StyleSheet.create({
     paddingTop: 22,
   },
   item: {
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: "#ccc",
   },
   image: {
     width: 50,
@@ -81,14 +73,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   price: {
     fontSize: 16,
-    color: 'green',
+    color: "green",
   },
   category: {
     fontSize: 14,
-    color: '#888',
+    color: "#888",
   },
 });
